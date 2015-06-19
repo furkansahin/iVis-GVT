@@ -162,8 +162,10 @@
 	Graph.prototype.loadJSON = function(json) {
 	/**
 	Springy's simple JSON format for graphs.
+
 	historically, Springy uses separate lists
 	of nodes and edges:
+
 		{
 			"nodes": [
 				"center",
@@ -178,6 +180,7 @@
 				["center", "up"]
 			]
 		}
+
 	**/
 		// parse if a string is passed (EC5+ browsers)
 		if (typeof json == 'string' || json instanceof String) {
