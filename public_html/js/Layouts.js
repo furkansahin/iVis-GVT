@@ -1,6 +1,12 @@
 var graph = {};
 var edgeNodes = [];
-
+var setFileContent = function(fileName){
+    var span = document.getElementById('file-name');
+    while( span.firstChild ) {
+        span.removeChild( span.firstChild );
+    }
+    span.appendChild( document.createTextNode(fileName) );
+};
 $(function () {
     window.cy = cytoscape({
         container: $('#cy')[0],
@@ -11,7 +17,7 @@ $(function () {
                 'text-valign': 'center',
                 'color': 'white',
                 'text-outline-width': 2,
-                'text-outline-color': '#888'
+                'text-outline-color': '#888',
             })
             .selector(':selected')
             .css({
@@ -19,12 +25,13 @@ $(function () {
                 'line-color': 'black',
                 'target-arrow-color': 'black',
                 'source-arrow-color': 'black',
-                'text-outline-color': 'black'
+                'text-outline-color': 'black',
+
             })
             .selector('edge')
             .css({
-                'background-color': 'black',
-                'line-color': 'black',
+                'background-color': 'grey',
+                'line-color': 'grey',
                 'target-arrow-color': 'red',
                 'source-arrow-color': 'black',
                 'text-outline-color': 'black'
@@ -37,6 +44,7 @@ $(function () {
             name: 'cose2',
             padding: 10
         },
+
         ready: function(){
             var i = 0;
             cy.on('tap', 'node', function(evt){
@@ -48,9 +56,22 @@ $(function () {
                     i = 0;
                 }
             });
+
+            var xmlObject = loadXMLDoc("sample/default.xml");
+            var graphmlConverter = graphmlToJSON(xmlObject);
+            atts = graphmlConverter.attributes;
+
+            var cytoscapeJsGraph = {
+                edges: graphmlConverter.objects[2],
+                nodes: graphmlConverter.objects[1]
+            };
+            refreshCytoscape(cytoscapeJsGraph);
+            setFileContent("default.graphml");
+
         }
 
     });
+
     var panProps = ({
         zoomFactor: 0.05, // zoom factor per zoom tick
         zoomDelay: 45, // how many ms between zoom ticks
@@ -94,7 +115,19 @@ function refreshCytoscape(graphData) { // on dom ready
                 'line-color': 'black',
                 'target-arrow-color': 'black',
                 'source-arrow-color': 'black',
-                'text-outline-color': 'black'
+                'text-outline-color': 'black',
+                'border-color': 'black',
+                'border-width': 3
+            })
+            .selector('edge:selected')
+            .css({
+                'background-color': 'black',
+                'line-color': 'black',
+                'target-arrow-color': 'black',
+                'source-arrow-color': 'black',
+                'text-outline-color': 'black',
+                'width': 4,
+                'opacity':.5
             })
             .selector('edge')
             .css({
@@ -104,6 +137,14 @@ function refreshCytoscape(graphData) { // on dom ready
                 'target-arrow-color': 'red',
                 'source-arrow-color': 'black',
                 'text-outline-color': 'black'
+            })
+            .selector('node:parent')
+            .css({
+                'content': 'data(name)',
+                'text-valign': 'bottom',
+                'color': 'white',
+                'text-outline-width': 2,
+                'text-outline-color': '#888',
             }),
         elements: {
             nodes: graphData['nodes'],
@@ -114,6 +155,9 @@ function refreshCytoscape(graphData) { // on dom ready
             name: 'preset',
             fit: true
         },
+        boxSelectionEnabled: true,
+        motionBlur: true,
+        wheelSensitivity: 0.1,
         ready: function(){
             var i = 0;
             cy.on('tap', 'node', function(evt){
@@ -234,6 +278,8 @@ var COSE2Layout = Backbone.View.extend({
             self.currentLayoutProperties.initialTemp = Number(document.getElementById("initialTemp4").value);
             self.currentLayoutProperties.minTemp = Number(document.getElementById("minTemp4").value);
             self.currentLayoutProperties.coolingFactor = Number(document.getElementById("coolingFactor4").value);
+            self.currentLayoutProperties.incremental = document.getElementById("incremental4").checked;
+            self.currentLayoutProperties.tile = document.getElementById("tile4").checked;
 
 
             $(self.el).dialog('close');
@@ -514,7 +560,7 @@ var SPRINGYLayout = Backbone.View.extend({
         padding: 30, // padding on fit
         boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
         random: false, // whether to use random initial positions
-        infinite3: true, // overrides all other options for a forces-all-the-time mode
+        infinite: true, // overrides all other options for a forces-all-the-time mode
         ready: undefined, // callback on layoutready
         stop: undefined, // callback on layoutstop
 
@@ -554,7 +600,7 @@ var SPRINGYLayout = Backbone.View.extend({
             self.currentLayoutProperties.fit = document.getElementById("fit3").checked;
             self.currentLayoutProperties.padding = Number(document.getElementById("padding3").value);
             self.currentLayoutProperties.random = document.getElementById("random3").checked;
-            self.currentLayoutProperties.infinite3 = document.getElementById("infinite3").checked;
+            self.currentLayoutProperties.infinite = document.getElementById("infinite3").checked;
             self.currentLayoutProperties.stiffness = Number(document.getElementById("stiffness3").value);
             self.currentLayoutProperties.repulsion = Number(document.getElementById("repulsion3").value);
             self.currentLayoutProperties.damping = Number(document.getElementById("damping3").value);

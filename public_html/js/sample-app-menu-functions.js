@@ -45,20 +45,20 @@ $("#arbor").click( function (e) {
 });
 
 var cose2LayoutProp = new COSE2Layout({
-    el: '#layout-table'
+    el: '#cose2-layout-table'
 });
 
 var coseLayoutProp = new COSELayout({
-    el: '#layout-table'
+    el: '#cose-layout-table'
 });
 var colaLayoutProp = new COLALayout({
-    el: '#layout-table'
+    el: '#cola-layout-table'
 });
 var arborLayoutProp = new ARBORLayout({
-    el: '#layout-table'
+    el: '#arbor-layout-table'
 });
 var springyLayoutProp = new SPRINGYLayout({
-    el: '#layout-table'
+    el: '#springy-layout-table'
 });
 $("#add-node-dialog").hide();
 $("#addNode").click(function () {
@@ -66,10 +66,10 @@ $("#addNode").click(function () {
         modal: true,
         draggable: false,
         resizable: false,
-        position: ['center', 'top'],
+        position: ['center', 'center'],
         show: 'blind',
         hide: 'blind',
-        width: 400,
+        width: 250,
         dialogClass: 'ui-dialog-osx',
         buttons: {
             "Done": function () {
@@ -80,6 +80,8 @@ $("#addNode").click(function () {
                 var y = $("#new-node-y").val();
                 var color = $("#new-node-color").val();
                 var shape = $("#new-node-shape").val();
+                var borderColor = $("#new-node-border-color").val();
+                var borderWidth = $("#new-node-border-width").val();
 
                 if (w == "") {
                     w = null;
@@ -87,6 +89,13 @@ $("#addNode").click(function () {
                 else {
                     w = Number(w);
                 }
+                if (borderWidth == "") {
+                    borderWidth = null;
+                }
+                else {
+                    borderWidth = Number(borderWidth);
+                }
+
 
                 if (h == "") {
                     h = null;
@@ -108,19 +117,21 @@ $("#addNode").click(function () {
                 else {
                     y = Number(y);
                 }
-                addNode(name, x, y, w, h, color, shape);
+                addNode(name, x, y, w, h, color, shape,borderColor, borderWidth );
                 $(this).dialog("close");
             }
         }
     });
 });
-var addNode = function (name, x_, y_, w, h, color, shape) {
+var addNode = function (name, x_, y_, w, h, color, shape, borderColor, borderWidth) {
     var id_ = IDGenerator.generate();
 
     css = {};
     css["content"] = name;
     css["background-color"] = color;
     css["shape"] = shape;
+    css['border-width'] = borderWidth ;
+    css['border-color'] = borderColor;
 
     cy.add({
         group: "nodes",
@@ -158,25 +169,48 @@ $("#delete").click(function (e) {
     }
     for (var i = 0; i < tNodes.length; i++)
     {
-        var children = tNodes[i].children();
-        var allEdges = cy.$('edge');
-        var parData = null;
-        if (tNodes[i].isChild()){
-            parData = tNodes[i]._private.data.parent
-        }
-        cy.remove(tNodes[i]);
-        if (children != null && children.length > 0 ){
+        deleteNode(tNodes[i]);
+    }
+    cy.layout({
+        name: "preset"
+    });
 
-            for(var a = 0; a < children.length; a++){
-                children[a]._private.data.parent = parData;
-
-            }
-            cy.add(children);
-            cy.add(allEdges);
+});
+var addChild = function(children, theChild){
+    var len = children.length;
+    for (var i = 0; i < theChild.children().length; i++){
+        children[len++] = theChild.children()[i];
+    }
+    children.length = len;
+    for (var i = 0 ; i < theChild.children().length; i++){
+        if (theChild.children()[i].isParent()){
+            addChild(children, theChild.children()[i]);
         }
     }
-});
-var pNodeNum = 0;
+};
+var deleteNode = function(theNode){
+    var children = theNode.children();
+    var len = children.length;
+    var allEdges = cy.$('edge');
+    var parData = null;
+    if (theNode.isChild()){
+        parData = theNode._private.data.parent
+    }
+    for (var i = 0; i < children.length; i++){
+        if (children[i].isParent())
+            addChild(children, children[i]);
+    }
+    cy.remove(theNode);
+    if (children != null && len > 0 ){
+
+        for(var a = 0; a < len; a++){
+            children[a]._private.data.parent = parData;
+
+        }
+        cy.add(children);
+        cy.add(allEdges);
+    }
+};
 $("#makeCompound").click(function (e) {
     var nodes = cy.$('node:selected');
     var nodesToAdd = [];
@@ -191,7 +225,7 @@ $("#makeCompound").click(function (e) {
     }
     var num = nodes.length;
     var pNode = new Object();
-    pNode['data'] = {id: ('p' + (pNodeNum++))};
+    pNode['data'] = {id: IDGenerator.generate()};
     pNode['group'] = 'nodes';
     pNode.position = new Object();
 
@@ -203,10 +237,21 @@ $("#makeCompound").click(function (e) {
     var ys = 0;
     var edges = cy.edges();
     for (var i = 0; i < nodes.length; i++) {
+        nodes[i].unselect();
         nodesToAdd[i].group = 'nodes';
-        nodesToAdd[i].data = {id: nodes[i]._private.data.id, parent: 'p' + (pNodeNum - 1)};
+        nodesToAdd[i].data = {id: nodes[i]._private.data.id, parent: pNode.data['id']};
         nodesToAdd[i].position = {x: nodes[i].position('x'), y: nodes[i].position('y')};
-        nodesToAdd[i].css = nodes[i].css();
+        nodesToAdd[i].css = new Object();
+        nodesToAdd[i].css['shape'] = nodes[i].css("shape");
+        nodesToAdd[i].css['background-color'] = nodes[i].css("background-color");
+        nodesToAdd[i].css['content'] = nodes[i].css("content");
+        nodesToAdd[i].css['text-valign'] = nodes[i].css("text-valign");
+        nodesToAdd[i].css['text-outline-color'] = nodes[i].css("text-outline-color");
+        nodesToAdd[i].css['text-outline-width'] = nodes[i].css("text-outline-width");
+        if (nodes[i].isParent()){
+            addChild(nodesToAdd, nodes[i]);
+        }
+
         xs += nodes[i].position('x');
         ys += nodes[i].position('y');
         cy.remove(nodes[i]);
@@ -214,14 +259,65 @@ $("#makeCompound").click(function (e) {
     cy.remove('edge');
     pNode['position'] = {x: xs / num, y: ys / num};
     cy.add(pNode);
-    for (var i = 0; i < nodesToAdd.length; i++)
+
+    for (var i = 0; i < nodesToAdd.length; i++) {
+
         cy.add(nodesToAdd[i]);
+
+    }
     for (var i = 0; i < edges.length; i++) {
         cy.add(edges[i]);
     }
 
-
-})
+    cy.style(
+        cytoscape.stylesheet()
+        .selector('node')
+        .css({
+            'content': 'data(name)',
+            'text-valign': 'center',
+            'color': 'white',
+            'text-outline-width': 2,
+            'text-outline-color': '#888'
+        })
+        .selector(':selected')
+        .css({
+            'background-color': 'black',
+            'line-color': 'black',
+            'target-arrow-color': 'black',
+            'source-arrow-color': 'black',
+            'text-outline-color': 'black',
+            'border-color': 'black',
+            'border-width': 3
+        })
+        .selector('edge:selected')
+        .css({
+            'background-color': 'black',
+            'line-color': 'black',
+            'target-arrow-color': 'black',
+            'source-arrow-color': 'black',
+            'text-outline-color': 'black',
+            'width': 4,
+            'opacity':.5
+        })
+        .selector('edge')
+        .css({
+            'background-color': 'black',
+            'line-color': 'black',
+            'color': 'black',
+            'target-arrow-color': 'red',
+            'source-arrow-color': 'black',
+            'text-outline-color': 'black'
+        })
+        .selector('node:parent')
+        .css({
+            'content': 'data(name)',
+            'text-valign': 'bottom',
+            'color': 'white',
+            'text-outline-width': 2,
+            'text-outline-color': '#888',
+        })
+    );
+});
 $("#layout-properties").click(function (e) {
     if (tempName !== '') {
         switch (tempName) {
@@ -273,6 +369,7 @@ $("#perform-layout").click(function (e) {
     }
 });
 var atts;
+
 $("body").on("change", "#file-input", function (e) {
     var fileInput = document.getElementById('file-input');
     var file = fileInput.files[0];
@@ -290,8 +387,10 @@ $("body").on("change", "#file-input", function (e) {
         };
         //       console.log(JSON.stringify(graphmlConverter.objects[1][0]));
         refreshCytoscape(cytoscapeJsGraph);
+
     };
     reader.readAsText(file);
+    setFileContent(file.name);
 });
 $("#load-file").click(function (e) {
     $("#file-input").trigger('click');
@@ -302,6 +401,7 @@ $("#new").click(function(e){
     graphData['nodes'] = undefined;
     graphData['edges'] = undefined;
     refreshCytoscape(graphData);
+
 })
 
 $("#save-as-png").click(function(evt){

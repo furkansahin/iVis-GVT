@@ -22,16 +22,21 @@ var handleNode = function (node, tabNum) {
     txt += '<data key="width">' + node.data("width") + '</data>\n';
 
     txt += oneMoreTab;
-    txt += '<data key="color">' + node.css("background-color") + '</data>\n';
+    txt += '<data key="color">' + node._private.style["background-color"].value[0] + " " + node._private.style["background-color"].value[1] +
+        " " + node._private.style["background-color"].value[2] + '</data>\n';
 
     txt += oneMoreTab;
     txt += '<data key="text">' + node.css("content") + '</data>\n';
 
     txt += oneMoreTab;
-    txt += '<data key="color">' + node.css("background-color") + '</data>\n';
+    txt += '<data key="color1">' + node._private.style["background-color"].value[0] + " " + node._private.style["background-color"].value[1] +
+        " " + node._private.style["background-color"].value[2] + '</data>\n';
 
     txt += oneMoreTab;
-    txt += '<data key="shape">' + node.css("shape") + '</data>\n';
+    txt += '<data key="shape">' + node.css("shape").substring(0,1).toUpperCase() + node.css("shape").substring(1,node.css("shape").length) + '</data>\n';
+
+
+
 
     var children = node.children();
     if (children != null && children.length > 0) {

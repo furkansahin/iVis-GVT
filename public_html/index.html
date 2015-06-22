@@ -6,9 +6,11 @@
     <link rel="stylesheet" href="libs/css/bootstrap.min.css">
         <link rel="stylesheet" href="libs/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="libs/css/jquery-ui-1.10.3.custom.css">
+        <link rel="stylesheet" href="libs/css/jquery.fancybox-1.3.4.css">
         <link rel="stylesheet" href="libs/css/cytoscape.js-panzoom.css">
         <link href="libs/css/font-awesome-4.0.3/css/font-awesome.css" rel="stylesheet" type="text/css" />
         <link href="libs/css/jquery.qtip.min.css" rel="stylesheet" type="text/css" />
+        <link href="libs/css/my-style.css" rel="stylesheet" type="text/css" />
 
 
         <style type="text/css">
@@ -37,12 +39,10 @@
             </style>
             </head>
             <body>
-            <div class="menu-container">
-                <nav id="myNavbar" class="navbar navbar-default" role="navigation">
+                <nav id="myNavbar" class="navbar navbar-default my-nav-bar" role="navigation">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="container">
                         <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
                                 <li class="dropdown">
                                     <a href="#" data-toggle="dropdown" class="dropdown-toggle">File <b class="caret"></b></a>
@@ -63,17 +63,25 @@
                                     <li><a id="addNode" href="#">Add Node ...</a></li>
                                     <li><a id="makeCompound" href="#">Add Compound For Selected</a></li>
                                     <li><a id="addEdge" href="#">Add Edge Between Selected</a></li>
+                                    <li class="divider"></li>
                                     <li><a id="delete" href="#">Delete Selected</a></li>
                                 </ul>
                                 </li>
                                 <li class="dropdown">
                                     <a href="#" data-toggle="dropdown" class="dropdown-toggle">Layout <b class="caret"></b></a>
                                     <ul class="dropdown-menu">
-                                        <li><a id="cose2" href="#">CoSE2</a></li>
-                                        <li><a id="cose" href="#">CoSE</a></li>
-                                        <li><a id="cola" href="#">Cola</a></li>
-                                        <li><a id="springy" href="#">Springy</a></li>
-                                        <li><a id="arbor" href="#">Arbor</a></li>
+                                        <li class="dropdown">
+                                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Style
+                                            <b class="right-caret"></b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a id="cose2" href="#">CoSE2</a></li>
+                                                <li><a id="cose" href="#">CoSE</a></li>
+                                                <li><a id="cola" href="#">Cola</a></li>
+                                                <li><a id="springy" href="#">Springy</a></li>
+                                                <li><a id="arbor" href="#">Arbor</a></li>
+                                            </ul>
+                                        </li>
                                         <li class="divider"></li>
                                         <li><a id = "perform-layout" href="#">Perform Layout</a></li>
                                         <li><a id = "layout-properties" href="#">Layout Properties</a></li>
@@ -81,12 +89,21 @@
                                 </li>
                             </ul>
                         </div><!-- /.navbar-collapse -->
-                    </div>
                 </nav>
+            <div id="info-content">
+                <table width="100%" height="100%" align="center" valign="center">
+                    <tr>
+                        <td>
+                            <span class="input-file" id="file-name"></span>
+                        </td>
+                        <td>
+                            <span class="label">Cytoscape.js<i>_LayoutDemo</i></span>
+                        </td>
+                    </tr>
+                </table>
             </div>
-            <div id="break"></div>
             <div id="cy"></div>
-            <div id="add-node-dialog" title="Add Node">
+            <div id="add-node-dialog" title="Add Node" style="display: none">
                 <span class="ui-state-default">
                         <span class="ui-icon ui-icon-info" style="float:left; margin:0 7px 0 0;">
                         </span>
@@ -121,6 +138,23 @@
 
                     <tr>
                         <td>
+                            <span class="add-on layout-text"> Border Width </span>
+                        </td>
+                        <td>
+                            <input id="new-node-border-width" type="text" value="1"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="add-on layout-text"> Border Color </span>
+                        </td>
+                        <td>
+                            <input id="new-node-border-color" type="color" value="#000000"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
                             <span class="add-on layout-text"> X </span>
                         </td>
                         <td>
@@ -142,7 +176,7 @@
                             <span class="add-on layout-text"> Color </span>
                         </td>
                         <td>
-                            <input id="new-node-color" type="color" />
+                            <input id="new-node-color" type="color" value="#ffffff"/>
                         </td>
                     </tr>
 
@@ -162,21 +196,27 @@
                     </tr>
                 </table>
             </div>
-            <div id="layout-table" title="Layout Properties">
+            <div id="cose2-layout-table" title="CoSE2 Properties">
+                <!-- sbgn layout table will be shown here -->
+            </div>
+            <div id="cose-layout-table" title="CoSE Properties">
+                <!-- sbgn layout table will be shown here -->
+            </div>
+            <div id="cola-layout-table" title="Cola Properties">
+                <!-- sbgn layout table will be shown here -->
+            </div>
+            <div id="springy-layout-table" title="Springy Properties">
+                <!-- sbgn layout table will be shown here -->
+            </div>
+            <div id="arbor-layout-table" title="Arbor Properties">
                 <!-- sbgn layout table will be shown here -->
             </div>
             <div id="ADDNode" title="Add Node">
                 <!-- sbgn layout table will be shown here -->
             </div>
-            <div id="sbgn-info-content">
-                <table width="100%" height="100%" align="center" valign="center">
-                    <tr>
-                        <td>
-                            <span class="input-file" id="file-name"></span>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            <script type="text/template" id="noty-info">
+                Right click to a node to see its detailed information
+            </script>
             <script type="text/template" id="cose2-settings-template">
                 <table class="table-condensed layout-table">
                     <tr>
@@ -246,7 +286,22 @@
                             <span class="add-on layout-text"> Animate </span>
                         </td>
                         <td>
-                            <input id="animate4" type="checkbox" class="input-small layour-text" checked>
+                            <input id="animate4" type="checkbox" class="input-small layour-text" <% if(animate){%> checked <%} %>>
+                        </td>
+                    </tr><tr>
+                        <td>
+                            <span class="add-on layout-text"> Tile </span>
+                        </td>
+                        <td>
+                            <input id="tile4" type="checkbox" class="input-small layour-text" <% if(tile){%> checked <%} %>>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="add-on layout-text"> Incremental </span>
+                        </td>
+                        <td>
+                            <input id="incremental4" type="checkbox" class="input-small layour-text" <% if(incremental){%> checked <%} %>>
                         </td>
                     </tr>
                     <tr>
@@ -263,7 +318,7 @@
                             <span class="add-on layout-text"> Fit </span>
                         </td>
                         <td>
-                            <input id="fit4" type="checkbox" class="input-small layout-text" checked>
+                            <input id="fit4" type="checkbox" class="input-small layout-text" <% if(fit){%> checked <%} %>>
                         </td>
                     </tr>
 
@@ -278,18 +333,10 @@
 
                     <tr>
                         <td>
-                            <span class="add-on layout-text"> Randomize </span>
-                        </td>
-                        <td>
-                            <input id="randomize4" type="checkbox" class="input-small layout-text" checked>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
                             <span class="add-on layout-text"> Debug </span>
                         </td>
                         <td>
-                            <input id="debug4" type="checkbox" class="input-small layout-text" checked>
+                            <input id="debug4" type="checkbox" class="input-small layout-text" <% if(debug){%> checked <%} %>>
                         </td>
                     </tr>
                     <tr>
@@ -395,7 +442,7 @@
                             <span class="add-on layout-text"> Animate </span>
                         </td>
                         <td>
-                            <input id="animate" type="checkbox" class="input-small layour-text" checked>
+                            <input id="animate" type="checkbox" class="input-small layour-text" <% if(animate){%> checked <%} %>>
                         </td>
                     </tr>
                     <tr>
@@ -412,7 +459,7 @@
                             <span class="add-on layout-text"> Fit </span>
                         </td>
                         <td>
-                            <input id="fit" type="checkbox" class="input-small layout-text" checked>
+                            <input id="fit" type="checkbox" class="input-small layout-text" <% if(fit){%> checked <%} %>>
                         </td>
                     </tr>
 
@@ -430,7 +477,7 @@
                             <span class="add-on layout-text"> Randomize </span>
                         </td>
                         <td>
-                            <input id="randomize" type="checkbox" class="input-small layout-text" checked>
+                            <input id="randomize" type="checkbox" class="input-small layout-text" <% if(randomize){%> checked <%} %>>
                         </td>
                     </tr>
                     <tr>
@@ -438,7 +485,7 @@
                             <span class="add-on layout-text"> Debug </span>
                         </td>
                         <td>
-                            <input id="debug" type="checkbox" class="input-small layout-text" checked>
+                            <input id="debug" type="checkbox" class="input-small layout-text" <% if(debug){%> checked <%} %>>
                         </td>
                     </tr>
                     <tr>
@@ -474,7 +521,7 @@
                             <span class="add-on layout-text"> Animate </span>
                         </td>
                         <td>
-                            <input id="animate1" type="checkbox" class="input-small layout-text" checked>
+                            <input id="animate1" type="checkbox" class="input-small layout-text" <% if(animate){%> checked <%} %>>
                         </td>
                     </tr>
 
@@ -501,7 +548,7 @@
                             <span class="add-on layout-text"> Ungrabify While Simulating </span>
                         </td>
                         <td>
-                            <input id="ungrabifyWhileSimulating1" type="checkbox" class="input-small layout-text" checked>
+                            <input id="ungrabifyWhileSimulating1" type="checkbox" class="input-small layout-text" <% if(ungrabifyWhileSimulating){%> checked <%} %>>
                         </td>
                     </tr>
 
@@ -510,7 +557,7 @@
                             <span class="add-on layout-text"> Fit </span>
                         </td>
                         <td>
-                            <input id="fit1" type="checkbox" class="input-small layout-text" checked>
+                            <input id="fit1" type="checkbox" class="input-small layout-text" <% if(fit){%> checked <%} %>>
                         </td>
                     </tr>
 
@@ -528,7 +575,7 @@
                             <span class="add-on layout-text"> Randomize </span>
                         </td>
                         <td>
-                            <input id="randomize1" type="checkbox" class="input-small layout-text" checked>
+                            <input id="randomize1" type="checkbox" class="input-small layout-text" <% if(randomize){%> checked <%} %>>
                         </td>
                     </tr>
                     <tr>
@@ -536,7 +583,7 @@
                             <span class="add-on layout-text"> Avoid overlap </span>
                         </td>
                         <td>
-                            <input id="avoidOverlap1" type="checkbox" class="input-small layour-text" checked>
+                            <input id="avoidOverlap1" type="checkbox" class="input-small layour-text" <% if(avoidOverlap){%> checked <%} %>>
                         </td>
                     </tr>
                     <tr>
@@ -544,7 +591,7 @@
                             <span class="add-on layout-text"> Handle Disconnected</span>
                         </td>
                         <td>
-                            <input id="handleDisconnected1" type="checkbox" class="input-small layout-text" checked>
+                            <input id="handleDisconnected1" type="checkbox" class="input-small layout-text" <% if(handleDisconnected){%> checked <%} %>>
                         </td>
                     </tr>
 
@@ -553,7 +600,7 @@
                             <span class="add-on layout-text"> Infinite </span>
                         </td>
                         <td>
-                            <input id="infinite1" type="checkbox" class="input-small layout-text" checked>
+                            <input id="infinite1" type="checkbox" class="input-small layout-text" <% if(infinite){%> checked <%} %>>
                         </td>
                     </tr>
                     <tr id="layout-buttons">
@@ -573,7 +620,7 @@
                             <span class="add-on layout-text"> Animate </span>
                         </td>
                         <td>
-                            <input id="animate2" type="checkbox" class="input-small layout-text" checked>
+                            <input id="animate2" type="checkbox" class="input-small layout-text" <% if(animate){%> checked <%} %>>
                         </td>
                     </tr>
 
@@ -590,7 +637,7 @@
                             <span class="add-on layout-text"> Fit </span>
                         </td>
                         <td>
-                            <input id="fit2" type="checkbox" class="input-small layout-text" checked>
+                            <input id="fit2" type="checkbox" class="input-small layout-text" <% if(fit){%> checked <%} %>>
                         </td>
                     </tr>
 
@@ -607,7 +654,7 @@
                             <span class="add-on layout-text"> Ungrabify While Simulating </span>
                         </td>
                         <td>
-                            <input id="ungrabifyWhileSimulating2" type="checkbox" class="input-small layout-text" checked>
+                            <input id="ungrabifyWhileSimulating2" type="checkbox" class="input-small layout-text" <% if(ungrabifyWhileSimulating){%> checked <%} %>>
                         </td>
                     </tr>
 
@@ -620,7 +667,7 @@
                             <span class="add-on layout-text"> Gravity </span>
                         </td>
                         <td>
-                            <input id="gravity2" type="checkbox" class="input-small layout-text" checked>
+                            <input id="gravity2" type="checkbox" class="input-small layout-text" <% if(gravity){%> checked <%} %>>
                         </td>
                     </tr>
                     <tr>
@@ -637,7 +684,7 @@
                             <span class="add-on layout-text"> Infinite </span>
                         </td>
                         <td>
-                            <input id="infinite2" type="checkbox" class="input-small layout-text" checked >
+                            <input id="infinite2" type="checkbox" class="input-small layout-text" <% if(infinite){%> checked <%} %> >
                         </td>
                     </tr>
                     <tr id="layout-buttons">
@@ -657,7 +704,7 @@
                             <span class="add-on layout-text"> Animate </span>
                         </td>
                         <td>
-                            <input id="animate3" type="checkbox" class="input-small layout-text" checked>
+                            <input id="animate3" type="checkbox" class="input-small layout-text" <% if(animate){%> checked <%} %>>
                         </td>
                     </tr>
 
@@ -674,7 +721,7 @@
                             <span class="add-on layout-text"> Ungrabify While Simulating </span>
                         </td>
                         <td>
-                            <input id="ungrabifyWhileSimulating3" type="checkbox" class="input-small layout-text" checked >
+                            <input id="ungrabifyWhileSimulating3" type="checkbox" class="input-small layout-text" <% if(ungrabifyWhileSimulating){%> checked <%} %> >
                         </td>
                     </tr>
                     <tr>
@@ -682,7 +729,7 @@
                             <span class="add-on layout-text"> Fit </span>
                         </td>
                         <td>
-                            <input id="fit3" type="checkbox" class="input-small layout-text" checked>
+                            <input id="fit3" type="checkbox" class="input-small layout-text" <% if(fit){%> checked <%} %>>
                         </td>
                     </tr>
 
@@ -700,7 +747,7 @@
                             <span class="add-on layout-text"> Random </span>
                         </td>
                         <td>
-                            <input id="random3" type="checkbox" class="input-small layout-text" checked>
+                            <input id="random3" type="checkbox" class="input-small layout-text" <% if(random){%> checked <%} %>>
                         </td>
                     </tr>
                     <tr>
@@ -708,7 +755,7 @@
                             <span class="add-on layout-text"> Infinite </span>
                         </td>
                         <td>
-                            <input id="infinite3" type="checkbox" class="input-small layout-text" checked>
+                            <input id="infinite3" type="checkbox" class="input-small layout-text" <% if(infinite){%> checked <%} %>>
                         </td>
                     </tr>
                     <tr>
@@ -716,7 +763,7 @@
                             <span class="add-on layout-text"> Stiffness </span>
                         </td>
                         <td>
-                            <input id="stiffness3" type="checkbox" class="input-small layour-text" checked>
+                            <input id="stiffness3" type="checkbox" class="input-small layour-text" <% if(stiffness){%> checked <%} %>>
                         </td>
                     </tr>
                     <tr>

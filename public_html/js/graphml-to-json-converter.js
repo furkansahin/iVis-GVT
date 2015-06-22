@@ -1,6 +1,6 @@
 var nodes = [];
 var edges = [];
-/*
+
 function loadXMLDoc(fileName) {
     if (window.XMLHttpRequest) {
         xhttp = new XMLHttpRequest();
@@ -9,19 +9,19 @@ function loadXMLDoc(fileName) {
     {
         xhttp = new ActiveXObject("Microsoft.XMLHTTP");
     }
-    xhttp.open("GET", filename, false);
+    xhttp.open("GET", fileName, false);
     xhttp.send();
     return xhttp.responseXML;
 }
 ;
-*/
+
 function graphmlToJSON(xml) {
   nodes = [];
   edges = [];
   graph = {};
   this.attributes = getAttributes(xml);
   this.objects = getObjects(xml, this.attributes[0], this.attributes[1], this.attributes[2]);
-
+    return {attributes: this.attributes, objects: this.objects};
 }
 ;
 
@@ -65,36 +65,8 @@ function getObjects(xmlObject, graphAttributes, nodeAttributes, edgeAttributes, 
 
         $(this).children('node').each(function () {
             processNode($(this), null, nodeAttributes);
-            /*            var nodeData = new Object();
-             nodeData["id"] = $(this).attr('id');
-             if (pid != null)
-             nodeData['parent'] = pid;
-             var nodeCSS = new Object();
-             var nodePosition = new Object();
+        });
 
-             // for each node object, take variable values from between data tags.
-             $(this).children('data').each(function () {
-             if ($(this).attr("key") == "color"){
-             var col = vals[a++].firstChild.textContent;
-             col = col.split(" ");
-             nodeCSS['background-color'] = "rgb("+col[0]+", " + col[1] + ", " + col[2]+")";
-             }
-             else
-             nodeCSS[$(this).attr("key")] = vals[a++].firstChild.textContent;
-             });
-             nodePosition['x'] = Number(nodeCSS['x']);
-             nodePosition['y'] = Number(nodeCSS['y']);
-             if (nodeCSS['shape'])
-             nodeCSS['shape'] = nodeCSS['shape'].toLowerCase();
-             nodeCSS['color'] = 'red';
-
-             if ($(this).children('graph').length > 0){
-             for (var i = 0; i < $(this).children('graph').length; i++){
-             var objects = getObjects($(this), graphAttributes, nodeAttributes, edgeAttributes, nodeData["id"]);
-             }
-             }
-             nodes.push({data: nodeData, css: nodeCSS, position: nodePosition});
-             */       });
         $(this).children('edge').each(function () {
             var edgeData = new Object();
             edgeData['id'] = $(this).attr('id');
@@ -117,7 +89,6 @@ var processNode = function (theNode, pid, nodeAttributes) {
     var cyPos = {};
 
     cyData.id = id;
-//  cyData.group = "nodes";
 
     if (pid != null) {
         cyData.parent = pid;
@@ -128,10 +99,6 @@ var processNode = function (theNode, pid, nodeAttributes) {
         val = val.toLowerCase();
         var name = $(this).attr('key');
 
-        /*   if (key == null) {
-         console.log("" + keyId + " is not a valid key for a node");
-         return;
-         }*/
 
         if (name == "x"||name == "y"||name == "width"||name == "height"||name == "margin") {
             val = Number(val);
@@ -163,7 +130,6 @@ var processNode = function (theNode, pid, nodeAttributes) {
         }
     });
 
-//  Globals.elements.nodes.push({data: cyData, css: cyCSS, position: cyPos});
     nodes.push({data: cyData, css: cyCSS, position: cyPos});
 
 

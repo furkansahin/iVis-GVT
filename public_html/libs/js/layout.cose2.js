@@ -117,37 +117,37 @@
     var directions = new Array(2);
     IGeometry.decideDirectionsForOverlappingNodes(rectA, rectB, directions);
     overlapAmount[0] = Math.min(rectA.getRight(), rectB.getRight()) -
-            Math.max(rectA.x, rectB.x);
+        Math.max(rectA.x, rectB.x);
     overlapAmount[1] = Math.min(rectA.getBottom(), rectB.getBottom()) -
-            Math.max(rectA.y, rectB.y);
+        Math.max(rectA.y, rectB.y);
     // update the overlapping amounts for the following cases:
     if ((rectA.getX() <= rectB.getX()) && (rectA.getRight() >= rectB.getRight()))
     {
       overlapAmount[0] += Math.min((rectB.getX() - rectA.getX()),
-              (rectA.getRight() - rectB.getRight()));
+          (rectA.getRight() - rectB.getRight()));
     }
     else if ((rectB.getX() <= rectA.getX()) && (rectB.getRight() >= rectA.getRight()))
     {
       overlapAmount[0] += Math.min((rectA.getX() - rectB.getX()),
-              (rectB.getRight() - rectA.getRight()));
+          (rectB.getRight() - rectA.getRight()));
     }
     if ((rectA.getY() <= rectB.getY()) && (rectA.getBottom() >= rectB.getBottom()))
     {
       overlapAmount[1] += Math.min((rectB.getY() - rectA.getY()),
-              (rectA.getBottom() - rectB.getBottom()));
+          (rectA.getBottom() - rectB.getBottom()));
     }
     else if ((rectB.getY() <= rectA.getY()) && (rectB.getBottom() >= rectA.getBottom()))
     {
       overlapAmount[1] += Math.min((rectA.getY() - rectB.getY()),
-              (rectB.getBottom() - rectA.getBottom()));
+          (rectB.getBottom() - rectA.getBottom()));
     }
 
     // find slope of the line passes two centers
     var slope = Math.abs((rectB.getCenterY() - rectA.getCenterY()) /
-            (rectB.getCenterX() - rectA.getCenterX()));
+        (rectB.getCenterX() - rectA.getCenterX()));
     // if centers are overlapped
     if ((rectB.getCenterY() == rectA.getCenterY()) &&
-            (rectB.getCenterX() == rectA.getCenterX()))
+        (rectB.getCenterX() == rectA.getCenterX()))
     {
       // assume the slope is 1 (45 degree)
       slope = 1.0;
@@ -908,7 +908,7 @@
     if (worldExtX != 0.0)
     {
       xDevice = this.ldeviceOrgX +
-              ((x - this.lworldOrgX) * this.ldeviceExtX / worldExtX);
+          ((x - this.lworldOrgX) * this.ldeviceExtX / worldExtX);
     }
 
     return xDevice;
@@ -921,7 +921,7 @@
     if (worldExtY != 0.0)
     {
       yDevice = this.ldeviceOrgY +
-              ((y - this.lworldOrgY) * this.ldeviceExtY / worldExtY);
+          ((y - this.lworldOrgY) * this.ldeviceExtY / worldExtY);
     }
 
 
@@ -935,7 +935,7 @@
     if (deviceExtX != 0.0)
     {
       xWorld = this.lworldOrgX +
-              ((x - this.ldeviceOrgX) * this.lworldExtX / deviceExtX);
+          ((x - this.ldeviceOrgX) * this.lworldExtX / deviceExtX);
     }
 
 
@@ -949,7 +949,7 @@
     if (deviceExtY != 0.0)
     {
       yWorld = this.lworldOrgY +
-              ((y - this.ldeviceOrgY) * this.lworldExtY / deviceExtY);
+          ((y - this.ldeviceOrgY) * this.lworldExtY / deviceExtY);
     }
     return yWorld;
   }
@@ -957,8 +957,8 @@
   Transform.prototype.inverseTransformPoint = function (inPoint)
   {
     var outPoint =
-            new PointD(this.inverseTransformX(inPoint.x),
-                    this.inverseTransformY(inPoint.y));
+        new PointD(this.inverseTransformX(inPoint.x),
+            this.inverseTransformY(inPoint.y));
     return outPoint;
   }
 
@@ -1095,9 +1095,9 @@
     var clipPointCoordinates = new Array(4);
 
     this.isOverlapingSourceAndTarget =
-            IGeometry.getIntersection(this.target.getRect(),
-                    this.source.getRect(),
-                    clipPointCoordinates);
+        IGeometry.getIntersection(this.target.getRect(),
+            this.source.getRect(),
+            clipPointCoordinates);
 
     if (!this.isOverlapingSourceAndTarget)
     {
@@ -1115,7 +1115,7 @@
       }
 
       this.length = Math.sqrt(
-              this.lengthX * this.lengthX + this.lengthY * this.lengthY);
+          this.lengthX * this.lengthX + this.lengthY * this.lengthY);
     }
   };
 
@@ -1135,7 +1135,7 @@
     }
 
     this.length = Math.sqrt(
-            this.lengthX * this.lengthX + this.lengthY * this.lengthY);
+        this.lengthX * this.lengthX + this.lengthY * this.lengthY);
   }
 
   function LGraph(parent, obj2, vGraph) {
@@ -1301,7 +1301,7 @@
         throw "Source and/or target is null!";
       }
       if (!(edge.source.owner != null && edge.target.owner != null &&
-              edge.source.owner == this && edge.target.owner == this)) {
+          edge.source.owner == this && edge.target.owner == this)) {
         throw "Source and/or target owner is invalid!";
       }
 
@@ -1548,11 +1548,11 @@
       {
         var neighborEdge = neighborEdges[i];
         currentNeighbor =
-                neighborEdge.getOtherEndInGraph(currentNode, this);
+            neighborEdge.getOtherEndInGraph(currentNode, this);
 
         // Add unvisited neighbors to the list to visit
         if (currentNeighbor != null &&
-                !visited.contains(currentNeighbor))
+            !visited.contains(currentNeighbor))
         {
           toBeVisited = toBeVisited.concat(currentNeighbor.withChildren());
         }
@@ -2154,7 +2154,7 @@
   LNode.prototype.getCenter = function ()
   {
     return new PointD(this.rect.x + this.rect.width / 2,
-            this.rect.y + this.rect.height / 2);
+        this.rect.y + this.rect.height / 2);
   };
 
   LNode.prototype.getLocation = function ()
@@ -2170,7 +2170,7 @@
   LNode.prototype.getDiagonal = function ()
   {
     return Math.sqrt(this.rect.width * this.rect.width +
-            this.rect.height * this.rect.height);
+        this.rect.height * this.rect.height);
   };
 
   LNode.prototype.setRect = function (upperLeft, dimension)
@@ -2315,12 +2315,12 @@
     var minX = -LayoutConstants.INITIAL_WORLD_BOUNDARY;
     var maxX = LayoutConstants.INITIAL_WORLD_BOUNDARY;
     randomCenterX = LayoutConstants.WORLD_CENTER_X +
-            (RandomSeed.nextDouble() * (maxX - minX)) + minX;
+        (RandomSeed.nextDouble() * (maxX - minX)) + minX;
 
     var minY = -LayoutConstants.INITIAL_WORLD_BOUNDARY;
     var maxY = LayoutConstants.INITIAL_WORLD_BOUNDARY;
     randomCenterY = LayoutConstants.WORLD_CENTER_Y +
-            (RandomSeed.nextDouble() * (maxY - minY)) + minY;
+        (RandomSeed.nextDouble() * (maxY - minY)) + minY;
 
     this.rect.x = randomCenterX;
     this.rect.y = randomCenterY
@@ -2340,10 +2340,10 @@
       this.rect.y = childGraph.getTop();
 
       this.setWidth(childGraph.getRight() - childGraph.getLeft() +
-              2 * LayoutConstants.COMPOUND_NODE_MARGIN);
+          2 * LayoutConstants.COMPOUND_NODE_MARGIN);
       this.setHeight(childGraph.getBottom() - childGraph.getTop() +
-              2 * LayoutConstants.COMPOUND_NODE_MARGIN +
-              LayoutConstants.LABEL_HEIGHT);
+          2 * LayoutConstants.COMPOUND_NODE_MARGIN +
+          LayoutConstants.LABEL_HEIGHT);
     }
   };
 
@@ -2420,12 +2420,12 @@
     this.layoutQuality = LayoutConstants.DEFAULT_QUALITY;
     //Whether layout should create bendpoints as needed or not
     this.createBendsAsNeeded =
-            LayoutConstants.DEFAULT_CREATE_BENDS_AS_NEEDED;
+        LayoutConstants.DEFAULT_CREATE_BENDS_AS_NEEDED;
     //Whether layout should be incremental or not
     this.incremental = LayoutConstants.DEFAULT_INCREMENTAL;
     //Whether we animate from before to after layout node positions
     this.animationOnLayout =
-            LayoutConstants.DEFAULT_ANIMATION_ON_LAYOUT;
+        LayoutConstants.DEFAULT_ANIMATION_ON_LAYOUT;
     //Whether we animate the layout process or not
     this.animationDuringLayout = LayoutConstants.DEFAULT_ANIMATION_DURING_LAYOUT;
     //Number iterations that should be done between two successive animations
@@ -2437,7 +2437,7 @@
      * in major speed-up.
      */
     this.uniformLeafNodeSizes =
-            LayoutConstants.DEFAULT_UNIFORM_LEAF_NODE_SIZES;
+        LayoutConstants.DEFAULT_UNIFORM_LEAF_NODE_SIZES;
     /**
      * This is used for creation of bendpoints by using dummy nodes and edges.
      * Maps an LEdge to its dummy bendpoint path.
@@ -2500,8 +2500,8 @@
     var isLayoutSuccessfull;
 
     if ((this.graphManager.getRoot() == null)
-            || this.graphManager.getRoot().getNodes().length == 0
-            || this.graphManager.includesInvalidEdge())
+        || this.graphManager.getRoot().getNodes().length == 0
+        || this.graphManager.includesInvalidEdge())
     {
       isLayoutSuccessfull = false;
     }
@@ -2661,7 +2661,7 @@
       this.layoutQuality = layoutOptionsPack.layoutQuality;
       this.animationDuringLayout = layoutOptionsPack.animationDuringLayout;
       this.animationPeriod = Math.floor(Layout.transform(layoutOptionsPack.animationPeriod,
-              LayoutConstants.DEFAULT_ANIMATION_PERIOD));
+          LayoutConstants.DEFAULT_ANIMATION_PERIOD));
       this.animationOnLayout = layoutOptionsPack.animationOnLayout;
       this.incremental = layoutOptionsPack.incremental;
       this.createBendsAsNeeded = layoutOptionsPack.createBendsAsNeeded;
@@ -2805,7 +2805,7 @@
         for (var i = 0; i < neighborEdges.length; i++)
         {
           var currentNeighbor =
-                  neighborEdges[i].getOtherEnd(currentNode);
+              neighborEdges[i].getOtherEnd(currentNode);
 
           // If BFS is not growing from this neighbor.
           if (parents.get(currentNode) != currentNeighbor)
@@ -2929,7 +2929,7 @@
         {
           var dummyNode = path[i];
           var p = new PointD(dummyNode.getCenterX(),
-                  dummyNode.getCenterY());
+              dummyNode.getCenterY());
 
           // update bendpoint's location according to dummy node
           var ebp = lEdge.bendpoints.get(i);
@@ -3282,15 +3282,15 @@
         if (this.useSmartIdealEdgeLengthCalculation)
         {
           edge.idealLength += sizeOfSourceInLca + sizeOfTargetInLca -
-                  2 * LayoutConstants.SIMPLE_NODE_SIZE;
+              2 * LayoutConstants.SIMPLE_NODE_SIZE;
         }
 
         lcaDepth = edge.getLca().getInclusionTreeDepth();
 
         edge.idealLength += FDLayoutConstants.DEFAULT_EDGE_LENGTH *
-                FDLayoutConstants.PER_LEVEL_IDEAL_EDGE_LENGTH_FACTOR *
-                (source.getInclusionTreeDepth() +
-                        target.getInclusionTreeDepth() - 2 * lcaDepth);
+            FDLayoutConstants.PER_LEVEL_IDEAL_EDGE_LENGTH_FACTOR *
+            (source.getInclusionTreeDepth() +
+            target.getInclusionTreeDepth() - 2 * lcaDepth);
       }
     }
   };
@@ -3302,21 +3302,21 @@
       this.coolingFactor = 0.8;
       this.initialCoolingFactor = 0.8;
       this.maxNodeDisplacement =
-              FDLayoutConstants.MAX_NODE_DISPLACEMENT_INCREMENTAL;
+          FDLayoutConstants.MAX_NODE_DISPLACEMENT_INCREMENTAL;
     }
     else
     {
       this.coolingFactor = 1.0;
       this.initialCoolingFactor = 1.0;
       this.maxNodeDisplacement =
-              FDLayoutConstants.MAX_NODE_DISPLACEMENT;
+          FDLayoutConstants.MAX_NODE_DISPLACEMENT;
     }
 
     this.maxIterations =
-            Math.max(this.getAllNodes().length * 5, this.maxIterations);
+        Math.max(this.getAllNodes().length * 5, this.maxIterations);
 
     this.totalDisplacementThreshold =
-            this.displacementThresholdPerNode * this.getAllNodes().length;
+        this.displacementThresholdPerNode * this.getAllNodes().length;
 
     this.repulsionRange = this.calcRepulsionRange();
   };
@@ -3390,7 +3390,7 @@
 
     // Update edge length
     if (this.uniformLeafNodeSizes &&
-            sourceNode.getChild() == null && targetNode.getChild() == null)
+        sourceNode.getChild() == null && targetNode.getChild() == null)
     {
       edge.updateLengthSimple();
     }
@@ -3437,9 +3437,9 @@
     {
       // calculate separation amount in x and y directions
       IGeometry.calcSeparationAmount(rectA,
-              rectB,
-              overlapAmount,
-              FDLayoutConstants.DEFAULT_EDGE_LENGTH / 2.0);
+          rectB,
+          overlapAmount,
+          FDLayoutConstants.DEFAULT_EDGE_LENGTH / 2.0);
 
       repulsionForceX = overlapAmount[0];
       repulsionForceY = overlapAmount[1];
@@ -3449,7 +3449,7 @@
       // calculate distance
 
       if (this.uniformLeafNodeSizes &&
-              nodeA.getChild() == null && nodeB.getChild() == null)// simply base repulsion on distance of node centers              
+          nodeA.getChild() == null && nodeB.getChild() == null)// simply base repulsion on distance of node centers
       {
         distanceX = rectB.getCenterX() - rectA.getCenterX();
         distanceY = rectB.getCenterY() - rectA.getCenterY();
@@ -3466,13 +3466,13 @@
       if (Math.abs(distanceX) < FDLayoutConstants.MIN_REPULSION_DIST)
       {
         distanceX = IMath.sign(distanceX) *
-                FDLayoutConstants.MIN_REPULSION_DIST;
+            FDLayoutConstants.MIN_REPULSION_DIST;
       }
 
       if (Math.abs(distanceY) < FDLayoutConstants.MIN_REPULSION_DIST)
       {
         distanceY = IMath.sign(distanceY) *
-                FDLayoutConstants.MIN_REPULSION_DIST;
+            FDLayoutConstants.MIN_REPULSION_DIST;
       }
 
       distanceSquared = distanceX * distanceX + distanceY * distanceY;
@@ -3514,7 +3514,7 @@
     {
       Math.floor(80);
       estimatedSize = Math.floor(ownerGraph.getEstimatedSize() *
-              this.gravityRangeFactor);
+          this.gravityRangeFactor);
 
       if (absDistanceX > estimatedSize || absDistanceY > estimatedSize)
       {
@@ -3525,14 +3525,14 @@
     else// inside a compound           
     {
       estimatedSize = Math.floor((ownerGraph.getEstimatedSize() *
-              this.compoundGravityRangeFactor));
+      this.compoundGravityRangeFactor));
 
       if (absDistanceX > estimatedSize || absDistanceY > estimatedSize)
       {
         node.gravitationForceX = -this.gravityConstant * distanceX *
-                this.compoundGravityConstant;
+            this.compoundGravityConstant;
         node.gravitationForceY = -this.gravityConstant * distanceY *
-                this.compoundGravityConstant;
+            this.compoundGravityConstant;
       }
     }
   };
@@ -3544,7 +3544,7 @@
     if (this.totalIterations > this.maxIterations / 3)
     {
       oscilating =
-              Math.abs(this.totalDisplacement - this.oldTotalDisplacement) < 2;
+          Math.abs(this.totalDisplacement - this.oldTotalDisplacement) < 2;
     }
 
     converged = this.totalDisplacement < this.totalDisplacementThreshold;
@@ -3591,7 +3591,7 @@
       FDLayoutConstants.DEFAULT_GRAVITY_STRENGTH = options.gravity;
     if (options.numIter != null)
       FDLayoutConstants.MAX_ITERATIONS = options.numIter;
-    
+
     layoutOptionsPack.animate = options.animate;
   }
 
@@ -3678,21 +3678,21 @@
   {
     var layout = this.graphManager.getLayout();
     this.displacementX = layout.coolingFactor *
-            (this.springForceX + this.repulsionForceX + this.gravitationForceX);
+        (this.springForceX + this.repulsionForceX + this.gravitationForceX);
     this.displacementY = layout.coolingFactor *
-            (this.springForceY + this.repulsionForceY + this.gravitationForceY);
+        (this.springForceY + this.repulsionForceY + this.gravitationForceY);
 
 
     if (Math.abs(this.displacementX) > layout.coolingFactor * layout.maxNodeDisplacement)
     {
       this.displacementX = layout.coolingFactor * layout.maxNodeDisplacement *
-              IMath.sign(this.displacementX);
+          IMath.sign(this.displacementX);
     }
 
     if (Math.abs(this.displacementY) > layout.coolingFactor * layout.maxNodeDisplacement)
     {
       this.displacementY = layout.coolingFactor * layout.maxNodeDisplacement *
-              IMath.sign(this.displacementY);
+          IMath.sign(this.displacementY);
     }
 
     // a simple node, just move it
@@ -3709,11 +3709,11 @@
     else
     {
       this.propogateDisplacementToChildren(this.displacementX,
-              this.displacementY);
+          this.displacementY);
     }
 
     layout.totalDisplacement +=
-            Math.abs(this.displacementX) + Math.abs(this.displacementY);
+        Math.abs(this.displacementX) + Math.abs(this.displacementY);
 
     this.springForceX = 0;
     this.springForceY = 0;
@@ -3821,25 +3821,25 @@
       }
 
       this.useSmartIdealEdgeLengthCalculation =
-              layoutOptionsPack.smartEdgeLengthCalc;
+          layoutOptionsPack.smartEdgeLengthCalc;
       this.springConstant =
-              Layout.transform(layoutOptionsPack.springStrength,
-                      FDLayoutConstants.DEFAULT_SPRING_STRENGTH, 5.0, 5.0);
+          Layout.transform(layoutOptionsPack.springStrength,
+              FDLayoutConstants.DEFAULT_SPRING_STRENGTH, 5.0, 5.0);
       this.repulsionConstant =
-              Layout.transform(layoutOptionsPack.repulsionStrength,
-                      FDLayoutConstants.DEFAULT_REPULSION_STRENGTH, 5.0, 5.0);
+          Layout.transform(layoutOptionsPack.repulsionStrength,
+              FDLayoutConstants.DEFAULT_REPULSION_STRENGTH, 5.0, 5.0);
       this.gravityConstant =
-              Layout.transform(layoutOptionsPack.gravityStrength,
-                      FDLayoutConstants.DEFAULT_GRAVITY_STRENGTH);
+          Layout.transform(layoutOptionsPack.gravityStrength,
+              FDLayoutConstants.DEFAULT_GRAVITY_STRENGTH);
       this.compoundGravityConstant =
-              Layout.transform(layoutOptionsPack.compoundGravityStrength,
-                      FDLayoutConstants.DEFAULT_COMPOUND_GRAVITY_STRENGTH);
+          Layout.transform(layoutOptionsPack.compoundGravityStrength,
+              FDLayoutConstants.DEFAULT_COMPOUND_GRAVITY_STRENGTH);
       this.gravityRangeFactor =
-              Layout.transform(layoutOptionsPack.gravityRange,
-                      FDLayoutConstants.DEFAULT_GRAVITY_RANGE_FACTOR);
+          Layout.transform(layoutOptionsPack.gravityRange,
+              FDLayoutConstants.DEFAULT_GRAVITY_RANGE_FACTOR);
       this.compoundGravityRangeFactor =
-              Layout.transform(layoutOptionsPack.compoundGravityRange,
-                      FDLayoutConstants.DEFAULT_COMPOUND_GRAVITY_RANGE_FACTOR);
+          Layout.transform(layoutOptionsPack.compoundGravityRange,
+              FDLayoutConstants.DEFAULT_COMPOUND_GRAVITY_RANGE_FACTOR);
     }
   };
 
@@ -3882,13 +3882,15 @@
     this.runSpringEmbedder();
 
     console.log("Classic CoSE layout finished after " +
-            this.totalIterations + " iterations");
+        this.totalIterations + " iterations");
 
     return true;
   };
 
   CoSELayout.prototype.runSpringEmbedder = function () {
     var lastFrame = new Date().getTime();
+    var initialAnimationPeriod = 25;
+    var animationPeriod = initialAnimationPeriod;
     do
     {
       this.totalIterations++;
@@ -3901,7 +3903,8 @@
         }
 
         this.coolingFactor = this.initialCoolingFactor *
-                ((this.maxIterations - this.totalIterations) / this.maxIterations);
+            ((this.maxIterations - this.totalIterations) / this.maxIterations);
+        animationPeriod = Math.ceil(initialAnimationPeriod * Math.sqrt(this.coolingFactor));
 
       }
       this.totalDisplacement = 0;
@@ -3911,7 +3914,7 @@
       this.calcGravitationalForces();
       this.moveNodes();
       this.animate();
-      if (layoutOptionsPack.animate && this.totalIterations % 10 == 0) {
+      if (layoutOptionsPack.animate && this.totalIterations % animationPeriod == 0) {
         for (var i = 0; i < 1e7; i++) {
           if ((new Date().getTime() - lastFrame) > 25){
             break;
@@ -4050,7 +4053,7 @@
 
       // Do a radial layout starting with the center
       point =
-              CoSELayout.radialLayout(tree, centerNode, currentStartingPoint);
+          CoSELayout.radialLayout(tree, centerNode, currentStartingPoint);
 
       if (point.y > height)
       {
@@ -4061,13 +4064,13 @@
     }
 
     this.transform(
-            new PointD(LayoutConstants.WORLD_CENTER_X - point.x / 2,
-                    LayoutConstants.WORLD_CENTER_Y - point.y / 2));
+        new PointD(LayoutConstants.WORLD_CENTER_X - point.x / 2,
+            LayoutConstants.WORLD_CENTER_Y - point.y / 2));
   };
 
   CoSELayout.radialLayout = function (tree, centerNode, startingPoint) {
     var radialSep = Math.max(this.maxDiagonalInTree(tree),
-            CoSEConstants.DEFAULT_RADIAL_SEPARATION);
+        CoSEConstants.DEFAULT_RADIAL_SEPARATION);
     CoSELayout.branchRadialLayout(centerNode, null, 0, 359, 0, radialSep);
     var bounds = LGraph.calculateBounds(tree);
 
@@ -4084,7 +4087,7 @@
     }
 
     var bottomRight =
-            new PointD(bounds.getMaxX(), bounds.getMaxY());
+        new PointD(bounds.getMaxX(), bounds.getMaxY());
 
     return transform.inverseTransformPoint(bottomRight);
   };
@@ -4111,6 +4114,7 @@
     // Traverse all neighbors of this node and recursively call this
     // function.
     var neighborEdges = [];
+    neighborEdges = neighborEdges.concat(node.getEdges());
     var childCount = neighborEdges.length;
 
     if (parentOfNode != null)
@@ -4153,11 +4157,11 @@
     var stepAngle = Math.abs(endAngle - startAngle) / childCount;
 
     for (var i = startIndex;
-            branchCount != childCount;
-            i = (++i) % incEdgesCount)
+         branchCount != childCount;
+         i = (++i) % incEdgesCount)
     {
       var currentNeighbor =
-              neighborEdges.get(i).getOtherEnd(node);
+          neighborEdges[i].getOtherEnd(node);
 
       // Don't back traverse to root node in current tree.
       if (currentNeighbor == parentOfNode)
@@ -4166,13 +4170,13 @@
       }
 
       var childStartAngle =
-              (startAngle + branchCount * stepAngle) % 360;
+          (startAngle + branchCount * stepAngle) % 360;
       var childEndAngle = (childStartAngle + stepAngle) % 360;
 
-      this.branchRadialLayout(currentNeighbor,
-              node,
-              childStartAngle, childEndAngle,
-              distance + radialSeparation, radialSeparation);
+      CoSELayout.branchRadialLayout(currentNeighbor,
+          node,
+          childStartAngle, childEndAngle,
+          distance + radialSeparation, radialSeparation);
 
       branchCount++;
     }
@@ -4238,7 +4242,7 @@
   CoSEConstants.DEFAULT_USE_MULTI_LEVEL_SCALING = false;
   CoSEConstants.DEFAULT_RADIAL_SEPARATION = FDLayoutConstants.DEFAULT_EDGE_LENGTH;
   CoSEConstants.DEFAULT_COMPONENT_SEPERATION = 60;
-  
+
   _CoSELayout.allChildren = [];
   _CoSELayout.idToLNode = {};
   _CoSELayout.toBeTiled = {};
@@ -4286,7 +4290,7 @@
     animate: true
   };
 
-  var layout = new CoSELayout();
+  _CoSELayout.layout = new CoSELayout();
   function _CoSELayout(options) {
 
     this.options = $$.util.extend({}, defaults, options);
@@ -4295,38 +4299,22 @@
   }
 
   _CoSELayout.prototype.run = function () {
-    _CoSELayout.allChildren = [];
     _CoSELayout.idToLNode = {};
     _CoSELayout.toBeTiled = {};
-    layout = new CoSELayout();
-    this.cy = this.options.cy; 
+    _CoSELayout.layout = new CoSELayout();
+    this.cy = this.options.cy;
     var after = this;
 
     this.cy.trigger('layoutstart');
 
-    var gm = layout.newGraphManager();
+    var gm = _CoSELayout.layout.newGraphManager();
     this.gm = gm;
 
-    this.cy.nodes();
     var nodes = this.cy.nodes();
-    ;
     var edges = this.cy.edges();
 
     this.root = gm.addRoot();
-    this.orphans = [];
-    for (var i = 0; i < nodes.length; i++) {
-      var theNode = nodes[i];
-      var p_id = theNode.data("parent");
-      if (p_id != null) {
-        if (_CoSELayout.allChildren[p_id] == null) {
-          _CoSELayout.allChildren[p_id] = [];
-        }
-        _CoSELayout.allChildren[p_id].push(theNode);
-      }
-      else {
-        this.orphans.push(theNode);
-      }
-    }
+    this.orphans = nodes.orphans();
 
     if (!this.options.tile) {
       this.processChildrenList(this.root, this.orphans);
@@ -4345,7 +4333,7 @@
       var edge = edges[i];
       var sourceNode = _CoSELayout.idToLNode[edge.data("source")];
       var targetNode = _CoSELayout.idToLNode[edge.data("target")];
-      var e1 = gm.add(layout.newEdge(), sourceNode, targetNode);
+      var e1 = gm.add(_CoSELayout.layout.newEdge(), sourceNode, targetNode);
     }
 
 
@@ -4391,44 +4379,44 @@
     };
 
     nodes.each(
-            function (i, node) {
-              var nodeId = this._private.data.id;
-              var parentId = node.parent().id();
-              var w = node.width();
-              var posX = node.position('x');
-              var posY = node.position('y');
-              var h = node.height();
+        function (i, node) {
+          var nodeId = this._private.data.id;
+          var parentId = node.parent().id();
+          var w = node.width();
+          var posX = node.position('x');
+          var posY = node.position('y');
+          var h = node.height();
 
-              var temp = node.parent()[0];
+          var temp = node.parent()[0];
 
-              while (temp != null) {
-                if (_CoSELayout.toBeTiled[temp.id()]) {
-                  return;
-                }
-                temp = temp.parent()[0];
-              }
+          while (temp != null) {
+            if (_CoSELayout.toBeTiled[temp.id()]) {
+              return;
+            }
+            temp = temp.parent()[0];
+          }
 
-              pData[ 'nodes' ].push({
-                id: nodeId,
-                pid: parentId,
-                x: posX,
-                y: posY,
-                width: w,
-                height: h
-              });
-            });
+          pData[ 'nodes' ].push({
+            id: nodeId,
+            pid: parentId,
+            x: posX,
+            y: posY,
+            width: w,
+            height: h
+          });
+        });
 
     edges.each(
-            function () {
-              var srcNodeId = this.source().id();
-              var tgtNodeId = this.target().id();
-              var edgeId = this._private.data.id;
-              pData[ 'edges' ].push({
-                id: edgeId,
-                source: srcNodeId,
-                target: tgtNodeId
-              });
-            });
+        function () {
+          var srcNodeId = this.source().id();
+          var tgtNodeId = this.target().id();
+          var edgeId = this._private.data.id;
+          pData[ 'edges' ].push({
+            id: edgeId,
+            source: srcNodeId,
+            target: tgtNodeId
+          });
+        });
 
 
     var ready = false;
@@ -4470,11 +4458,11 @@
           var theNode;
 
           if (theChild.width != null
-                  && theChild.height != null) {
+              && theChild.height != null) {
             theNode = parent.add(new CoSENode(gm_t,
-                    new PointD(theChild.x, theChild.y),
-                    new DimensionD(parseFloat(theChild.width),
-                            parseFloat(theChild.height))));
+                new PointD(theChild.x, theChild.y),
+                new DimensionD(parseFloat(theChild.width),
+                    parseFloat(theChild.height))));
           }
           else {
             theNode = parent.add(new CoSENode(gm_t));
@@ -4801,7 +4789,7 @@
   };
 
   /**
-   * This method places each zero degree member wrt given (x,y) coordinates (top left). 
+   * This method places each zero degree member wrt given (x,y) coordinates (top left).
    */
   _CoSELayout.prototype.adjustLocations = function (organization, x, y) {
     x += organization.complexMargin;
@@ -5096,11 +5084,11 @@
       var theNode;
 
       if (theChild.width() != null
-              && theChild.height() != null) {
-        theNode = parent.add(new CoSENode(layout.graphManager,
-                new PointD(theChild.position('x'), theChild.position('y')),
-                new DimensionD(parseFloat(theChild.width()),
-                        parseFloat(theChild.height()))));
+          && theChild.height() != null) {
+        theNode = parent.add(new CoSENode(_CoSELayout.layout.graphManager,
+            new PointD(theChild.position('x'), theChild.position('y')),
+            new DimensionD(parseFloat(theChild.width()),
+                parseFloat(theChild.height()))));
       }
       else {
         theNode = parent.add(new CoSENode(this.graphManager));
@@ -5118,7 +5106,7 @@
 
       if (children_of_children != null && children_of_children.length > 0) {
         var theNewGraph;
-        theNewGraph = layout.getGraphManager().add(layout.newGraph(), theNode);
+        theNewGraph = _CoSELayout.layout.getGraphManager().add(_CoSELayout.layout.newGraph(), theNode);
         this.processChildrenList(theNewGraph, children_of_children);
       }
     }
