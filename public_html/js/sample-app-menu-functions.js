@@ -126,24 +126,21 @@ $("#addNode").click(function () {
 var addNode = function (name, x_, y_, w, h, color, shape, borderColor, borderWidth) {
     var id_ = IDGenerator.generate();
 
-    css = {};
-    css["content"] = name;
-    css["background-color"] = color;
-    css["shape"] = shape;
-    css['border-width'] = borderWidth ;
-    css['border-color'] = borderColor;
-
+    var cssTemp = {};
+    cssTemp["content"] = name;
+    cssTemp["background-color"] = color;
+    cssTemp["shape"] = shape;
+    cssTemp['border-width'] = borderWidth;
+    cssTemp['border-color'] = borderColor;
     cy.add({
         group: "nodes",
         data: {id: id_, width: w, height: h},
         position: {x: x_, y: y_},
-        css: css
+        css: cssTemp
     });
 
-    cy.layout({
-        name: "preset"
-    });
-}
+
+};
 
 $("#addEdge").click(function (e) {
     if (edgeNodes.length != 2){
@@ -248,6 +245,7 @@ $("#makeCompound").click(function (e) {
         nodesToAdd[i].css['text-valign'] = nodes[i].css("text-valign");
         nodesToAdd[i].css['text-outline-color'] = nodes[i].css("text-outline-color");
         nodesToAdd[i].css['text-outline-width'] = nodes[i].css("text-outline-width");
+        nodesToAdd[i].css['border-width'] = nodes[i]._private.style['border-width'].value;
         if (nodes[i].isParent()){
             addChild(nodesToAdd, nodes[i]);
         }
@@ -258,65 +256,16 @@ $("#makeCompound").click(function (e) {
     }
     cy.remove('edge');
     pNode['position'] = {x: xs / num, y: ys / num};
-    cy.add(pNode);
+    var otherNodes = cy.nodes();
+    var len = otherNodes.length;
+    otherNodes[len++] = pNode;
 
     for (var i = 0; i < nodesToAdd.length; i++) {
 
-        cy.add(nodesToAdd[i]);
-
+        otherNodes[len++] = nodesToAdd[i];
     }
-    for (var i = 0; i < edges.length; i++) {
-        cy.add(edges[i]);
-    }
-
-    cy.style(
-        cytoscape.stylesheet()
-        .selector('node')
-        .css({
-            'content': 'data(name)',
-            'text-valign': 'center',
-            'color': 'white',
-            'text-outline-width': 2,
-            'text-outline-color': '#888'
-        })
-        .selector(':selected')
-        .css({
-            'background-color': 'black',
-            'line-color': 'black',
-            'target-arrow-color': 'black',
-            'source-arrow-color': 'black',
-            'text-outline-color': 'black',
-            'border-color': 'black',
-            'border-width': 3
-        })
-        .selector('edge:selected')
-        .css({
-            'background-color': 'black',
-            'line-color': 'black',
-            'target-arrow-color': 'black',
-            'source-arrow-color': 'black',
-            'text-outline-color': 'black',
-            'width': 4,
-            'opacity':.5
-        })
-        .selector('edge')
-        .css({
-            'background-color': 'black',
-            'line-color': 'black',
-            'color': 'black',
-            'target-arrow-color': 'red',
-            'source-arrow-color': 'black',
-            'text-outline-color': 'black'
-        })
-        .selector('node:parent')
-        .css({
-            'content': 'data(name)',
-            'text-valign': 'bottom',
-            'color': 'white',
-            'text-outline-width': 2,
-            'text-outline-color': '#888',
-        })
-    );
+    otherNodes.length = len;
+    refreshCytoscape({nodes: otherNodes, edges: edges});
 });
 $("#layout-properties").click(function (e) {
     if (tempName !== '') {

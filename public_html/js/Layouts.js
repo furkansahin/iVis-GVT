@@ -26,15 +26,34 @@ $(function () {
                 'target-arrow-color': 'black',
                 'source-arrow-color': 'black',
                 'text-outline-color': 'black',
+                'border-color': 'black',
+                'border-width': 5
 
             })
             .selector('edge')
             .css({
-                'background-color': 'grey',
-                'line-color': 'grey',
+                'background-color': 'black',
+                'line-color': 'black',
                 'target-arrow-color': 'red',
                 'source-arrow-color': 'black',
                 'text-outline-color': 'black'
+            })
+            .selector('edge:selected')
+            .css({
+                'background-color': 'green',
+                'line-color': 'green',
+                'width': 5,
+                'opacity':1,
+                'color' : 'green'
+
+            })
+            .selector('node:parent')
+            .css({
+                'content': 'data(name)',
+                'text-valign': 'bottom',
+                'color': 'white',
+                'text-outline-width': 2,
+                'text-outline-color': '#888',
             }),
         elements: {
             nodes: [],
@@ -42,7 +61,8 @@ $(function () {
         },
         layout: {
             name: 'cose2',
-            padding: 10
+            refresh: 0,
+            // Whether to fit the network view after when done
         },
 
         ready: function(){
@@ -112,22 +132,12 @@ function refreshCytoscape(graphData) { // on dom ready
             .selector(':selected')
             .css({
                 'background-color': 'black',
-                'line-color': 'black',
+      //          'line-color': 'black',
                 'target-arrow-color': 'black',
                 'source-arrow-color': 'black',
                 'text-outline-color': 'black',
                 'border-color': 'black',
                 'border-width': 3
-            })
-            .selector('edge:selected')
-            .css({
-                'background-color': 'black',
-                'line-color': 'black',
-                'target-arrow-color': 'black',
-                'source-arrow-color': 'black',
-                'text-outline-color': 'black',
-                'width': 4,
-                'opacity':.5
             })
             .selector('edge')
             .css({
@@ -138,6 +148,13 @@ function refreshCytoscape(graphData) { // on dom ready
                 'source-arrow-color': 'black',
                 'text-outline-color': 'black'
             })
+            .selector('edge:selected')
+            .css({
+                'line-color': 'black',
+                'width': 4,
+                'opacity':1
+            })
+
             .selector('node:parent')
             .css({
                 'content': 'data(name)',
@@ -288,7 +305,7 @@ var COSE2Layout = Backbone.View.extend({
 
         $("#default-layout4").die("click").live("click", function (evt) {
             self.copyProperties();
-            self.template = _.template($("#cose-settings-template").html(), self.currentLayoutProperties);
+            self.template = _.template($("#cose2-settings-template").html(), self.currentLayoutProperties);
             $(self.el).html(self.template);
         });
 
@@ -604,7 +621,6 @@ var SPRINGYLayout = Backbone.View.extend({
             self.currentLayoutProperties.stiffness = Number(document.getElementById("stiffness3").value);
             self.currentLayoutProperties.repulsion = Number(document.getElementById("repulsion3").value);
             self.currentLayoutProperties.damping = Number(document.getElementById("damping3").value);
-
 
             $(self.el).dialog('close');
         });
