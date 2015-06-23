@@ -66,17 +66,18 @@ $(function () {
         },
 
         ready: function(){
-            var i = 0;
+/*            var i = 0;
             cy.on('tap', 'node', function(evt){
                 if (i < 2){
-                    edgeNodes[i++] = this._private.data.id;
+                    if (this._private.data.id != edgeNodes[i])
+                        edgeNodes[i++] = this._private.data.id;
                 }
                 else{
-                    edgeNodes = [];
+                    edgeNodes[0] = this._private.data.id;
                     i = 0;
                 }
             });
-
+*/
             var xmlObject = loadXMLDoc("sample/default.xml");
             var graphmlConverter = graphmlToJSON(xmlObject);
             atts = graphmlConverter.attributes;
@@ -127,17 +128,16 @@ function refreshCytoscape(graphData) { // on dom ready
                 'text-valign': 'center',
                 'color': 'white',
                 'text-outline-width': 2,
-                'text-outline-color': '#888'
+                'text-outline-color': '#888',
+                'border-width': 1
             })
-            .selector(':selected')
+            .selector('node:selected')
             .css({
                 'background-color': 'black',
-      //          'line-color': 'black',
-                'target-arrow-color': 'black',
-                'source-arrow-color': 'black',
                 'text-outline-color': 'black',
                 'border-color': 'black',
-                'border-width': 3
+                'border-width': 3,
+                'opacity': 1
             })
             .selector('edge')
             .css({
