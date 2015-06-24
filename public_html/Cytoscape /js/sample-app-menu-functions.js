@@ -81,7 +81,7 @@ $("#addNode").click(function () {
                 var color = $("#new-node-color").val();
                 var shape = $("#new-node-shape").val();
                 var borderColor = $("#new-node-border-color").val();
-//                var borderWidth = $("#new-node-border-width").val();
+                var borderWidth = $("#new-node-border-width").val();
 
                 if (w == "") {
                     w = null;
@@ -89,14 +89,14 @@ $("#addNode").click(function () {
                 else {
                     w = Number(w);
                 }
- /*               if (borderWidth == "") {
+                if (borderWidth == "") {
                     borderWidth = null;
                 }
                 else {
                     borderWidth = Number(borderWidth);
                 }
 
-*/
+
                 if (h == "") {
                     h = null;
                 }
@@ -117,46 +117,43 @@ $("#addNode").click(function () {
                 else {
                     y = Number(y);
                 }
-                addNode(name, x, y, w, h, color, shape,borderColor/*, borderWidth */);
+                addNode(name, x, y, w, h, color, shape,borderColor, borderWidth );
                 $(this).dialog("close");
             }
         }
     });
 });
-var addNode = function (name, x_, y_, w, h, color, shape, borderColor/*, borderWidth*/) {
+var addNode = function (name, x_, y_, w, h, color, shape, borderColor, borderWidth) {
     var id_ = IDGenerator.generate();
 
-    var cssTemp = {};
-    cssTemp["content"] = name;
-    cssTemp["background-color"] = color;
-    cssTemp["shape"] = shape;
-//    cssTemp['border-width'] = borderWidth;
-    cssTemp['border-color'] = borderColor;
+    css = {};
+    css["content"] = name;
+    css["background-color"] = color;
+    css["shape"] = shape;
+    css['border-width'] = borderWidth ;
+    css['border-color'] = borderColor;
+
     cy.add({
         group: "nodes",
         data: {id: id_, width: w, height: h},
         position: {x: x_, y: y_},
-        css: cssTemp
+        css: css
     });
 
-
-};
+    cy.layout({
+        name: "preset"
+    });
+}
 
 $("#addEdge").click(function (e) {
-    if (cy.$("node:selected").length !=  2)
-        return;
-    var edge = new Object();
-    edge.id = IDGenerator.generate();
-    edge.group = 'edges';
-    edge.data = {source: cy.$("node:selected")[0].data('id'), target: cy.$("node:selected")[1].data('id')}
-/*    if (edgeNodes.length != 2){
+    if (edgeNodes.length != 2){
         return;
     }
     var target = edgeNodes[1];
     var source = edgeNodes[0];
     var edge = new Object();
     edge['group'] = "edges";
-    edge['data'] = {source: source, target: target};*/
+    edge['data'] = {source: source, target: target};
     cy.add(edge);
 });
 
@@ -239,10 +236,6 @@ $("#makeCompound").click(function (e) {
     var xs = 0;
     var ys = 0;
     var edges = cy.edges();
-    var selEdges = cy.$("edge:selected");
-    for (var i = 0; i < selEdges.length; i++){
-        selEdges[i].unselect();
-    }
     for (var i = 0; i < nodes.length; i++) {
         nodes[i].unselect();
         nodesToAdd[i].group = 'nodes';
@@ -255,7 +248,6 @@ $("#makeCompound").click(function (e) {
         nodesToAdd[i].css['text-valign'] = nodes[i].css("text-valign");
         nodesToAdd[i].css['text-outline-color'] = nodes[i].css("text-outline-color");
         nodesToAdd[i].css['text-outline-width'] = nodes[i].css("text-outline-width");
-//        nodesToAdd[i].css['border-width'] = nodes[i]._private.style['border-width'].value;
         if (nodes[i].isParent()){
             addChild(nodesToAdd, nodes[i]);
         }
@@ -267,13 +259,64 @@ $("#makeCompound").click(function (e) {
     cy.remove('edge');
     pNode['position'] = {x: xs / num, y: ys / num};
     cy.add(pNode);
-    for (var i = 0; i < nodesToAdd.length; i++){
+
+    for (var i = 0; i < nodesToAdd.length; i++) {
+
         cy.add(nodesToAdd[i]);
+
     }
-    cy.add(edges);
-    cy.layout({
-        name: 'preset'
-    })
+    for (var i = 0; i < edges.length; i++) {
+        cy.add(edges[i]);
+    }
+
+    cy.style(
+        cytoscape.stylesheet()
+        .selector('node')
+        .css({
+            'content': 'data(name)',
+            'text-valign': 'center',
+            'color': 'white',
+            'text-outline-width': 2,
+            'text-outline-color': '#888'
+        })
+        .selector(':selected')
+        .css({
+            'background-color': 'black',
+            'line-color': 'black',
+            'target-arrow-color': 'black',
+            'source-arrow-color': 'black',
+            'text-outline-color': 'black',
+            'border-color': 'black',
+            'border-width': 3
+        })
+        .selector('edge:selected')
+        .css({
+            'background-color': 'black',
+            'line-color': 'black',
+            'target-arrow-color': 'black',
+            'source-arrow-color': 'black',
+            'text-outline-color': 'black',
+            'width': 4,
+            'opacity':.5
+        })
+        .selector('edge')
+        .css({
+            'background-color': 'black',
+            'line-color': 'black',
+            'color': 'black',
+            'target-arrow-color': 'red',
+            'source-arrow-color': 'black',
+            'text-outline-color': 'black'
+        })
+        .selector('node:parent')
+        .css({
+            'content': 'data(name)',
+            'text-valign': 'bottom',
+            'color': 'white',
+            'text-outline-width': 2,
+            'text-outline-color': '#888',
+        })
+    );
 });
 $("#layout-properties").click(function (e) {
     if (tempName !== '') {
