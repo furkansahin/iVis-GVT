@@ -272,7 +272,6 @@ var COSE2Layout = Backbone.View.extend({
         cy.layout(options);
     },
     render: function () {
-        this.defaultLayoutProperties = this.currentLayoutProperties;
         var self = this;
         self.template = _.template($("#cose2-settings-template").html(), self.currentLayoutProperties);
         $(self.el).html(self.template);
@@ -354,7 +353,6 @@ var COSELayout = Backbone.View.extend({
         cy.layout(options);
     },
     render: function () {
-        this.defaultLayoutProperties = this.currentLayoutProperties;
         var self = this;
         self.template = _.template($("#cose-settings-template").html(), self.currentLayoutProperties);
         $(self.el).html(self.template);

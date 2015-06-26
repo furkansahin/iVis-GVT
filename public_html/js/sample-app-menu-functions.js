@@ -130,11 +130,13 @@ var addNode = function (name, x_, y_, w, h, color, shape, borderColor/*, borderW
     cssTemp["content"] = name;
     cssTemp["background-color"] = color;
     cssTemp["shape"] = shape;
+    cssTemp["width"] = w;
+    cssTemp["height"] = h;
 //    cssTemp['border-width'] = borderWidth;
     cssTemp['border-color'] = borderColor;
     cy.add({
         group: "nodes",
-        data: {id: id_, width: w, height: h},
+        data: {id: id_},
         position: {x: x_, y: y_},
         css: cssTemp
     });
@@ -253,8 +255,10 @@ $("#makeCompound").click(function (e) {
         nodesToAdd[i].css['background-color'] = nodes[i].css("background-color");
         nodesToAdd[i].css['content'] = nodes[i].css("content");
         nodesToAdd[i].css['text-valign'] = nodes[i].css("text-valign");
-        nodesToAdd[i].css['text-outline-color'] = nodes[i].css("text-outline-color");
+   //     nodesToAdd[i].css['text-outline-color'] = nodes[i].css("text-outline-color");
         nodesToAdd[i].css['text-outline-width'] = nodes[i].css("text-outline-width");
+        nodesToAdd[i].css['width'] = nodes[i].css('width');
+        nodesToAdd[i].css['height'] = nodes[i].css('height');
 //        nodesToAdd[i].css['border-width'] = nodes[i]._private.style['border-width'].value;
         if (nodes[i].isParent()){
             addChild(nodesToAdd, nodes[i]);
@@ -394,4 +398,30 @@ $("#save-as-png").click(function(evt){
 
     saveAs(b64toBlob(b64data, "image/png"), "network.png");
 
+});
+
+$("#quick-help").click(function (e) {
+    e.preventDefault();
+    $.fancybox(
+        _.template($("#quick-help-template").html(), {}),
+        {
+            'autoDimensions': true,
+            'width': 800,
+            'height': 800,
+            'transitionIn': 'none',
+            'transitionOut': 'none',
+            openEffect  : 'none',
+            closeEffect : 'none',
+            nextEffect  : 'none',
+            prevEffect  : 'none',
+            afterLoad  : function () {
+                $.extend(this, {
+                    aspectRatio : false,
+                    width   : '100%',
+                    height  : '100%',
+
+                });
+            }
+        });
+ //   $.fancybox().title = "hello";
 });
