@@ -16,10 +16,10 @@ var handleNode = function (node, tabNum) {
     txt += '<data key="y">' + node.position("y") + '</data>\n';
 
     txt += oneMoreTab;
-    txt += '<data key="height">' + node.data("height") + '</data>\n';
+    txt += '<data key="height">' + node._private.style['height'].value + '</data>\n';
 
     txt += oneMoreTab;
-    txt += '<data key="width">' + node.data("width") + '</data>\n';
+    txt += '<data key="width">' + node._private.style['width'].value + '</data>\n';
 
     txt += oneMoreTab;
     txt += '<data key="color">' + node._private.style["background-color"].value[0] + " " + node._private.style["background-color"].value[1] +

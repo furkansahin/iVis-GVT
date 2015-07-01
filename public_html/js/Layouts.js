@@ -78,7 +78,7 @@ $(function () {
                 }
             });
 */
-            var xmlObject = loadXMLDoc("sample/default.xml");
+            var xmlObject = loadXMLDoc("sample/graph0.xml");
             var graphmlConverter = graphmlToJSON(xmlObject);
             atts = graphmlConverter.attributes;
 
@@ -87,7 +87,7 @@ $(function () {
                 nodes: graphmlConverter.objects[1]
             };
             refreshCytoscape(cytoscapeJsGraph);
-            setFileContent("default.graphml");
+            setFileContent("graph0.graphml");
 
         }
 
@@ -131,6 +131,16 @@ function refreshCytoscape(graphData) { // on dom ready
                 'text-outline-color': '#888',
                 'border-width': 1
             })
+            .selector('node:parent')
+            .css({
+                'content': 'data(name)',
+                'text-valign': 'bottom',
+                'color': 'white',
+                'text-outline-width': 2,
+                'text-outline-color': '#888',
+                'border-width': 0,
+                'border-color': 'white'
+            })
             .selector('node:selected')
             .css({
                 'background-color': 'black',
@@ -153,16 +163,9 @@ function refreshCytoscape(graphData) { // on dom ready
                 'line-color': 'black',
                 'width': 4,
                 'opacity':1
-            })
-
-            .selector('node:parent')
-            .css({
-                'content': 'data(name)',
-                'text-valign': 'bottom',
-                'color': 'white',
-                'text-outline-width': 2,
-                'text-outline-color': '#888',
             }),
+
+
         elements: {
             nodes: graphData['nodes'],
             edges: graphData['edges']
@@ -227,7 +230,7 @@ var COSE2Layout = Backbone.View.extend({
         // Padding on fit
         padding: 10,
         // Whether to enable incremental mode
-        incremental: false,
+        incremental: true,
         // Whether to use the JS console to print debug messages
         debug: false,
         // Node repulsion (non overlapping) multiplier
@@ -445,7 +448,6 @@ var COLALayout = Backbone.View.extend({
             options[prop] = this.currentLayoutProperties[prop];
         }
 //        var options = clone(this.currentLayoutProperties);
-        console.log(options);
         cy.layout(options);
     },
     render: function () {
@@ -491,7 +493,7 @@ var ARBORLayout = Backbone.View.extend({
         ungrabifyWhileSimulating: false, // so you can't drag nodes during layout
 
         // callbacks on layout events
-        ready: undefined, // callback on layoutready 
+        ready: undefined, // callback on layoutready
         stop: undefined, // callback on layoutstop
 
         // forces used by arbor (use arbor default on undefined)

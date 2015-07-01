@@ -37,6 +37,18 @@
                                         <li><a id="new" href="#">New</a> </li>
                                         <li><input id="file-input" type="file" style="display:none" />
                                             <a href="#" type="file" id="load-file">Load ...</a></li>
+                                        <li class="dropdown">
+                                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Samples
+                                            <b class="right-caret"></b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a id="sample1" href="#">Sample1</a></li>
+                                                <li><a id="sample2" href="#">Sample2</a></li>
+                                                <li><a id="sample3" href="#">Sample3</a></li>
+                                                <li><a id="sample4" href="#">Sample4</a></li>
+                                                <li><a id="sample5" href="#">Sample5</a></li>
+                                            </ul>
+                                        </li>
                                         <li>
                                             <a id="save-file" href="#">Save</a></li>
                                         <li class="divider"></li>
@@ -319,7 +331,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <span class="add-on layout-text"> Incremental </span>
+                            <span class="add-on layout-text"> Randomize </span>
                         </td>
                         <td>
                             <input id="incremental4" type="checkbox" class="input-small layour-text" <% if(incremental){%> checked <%} %>>

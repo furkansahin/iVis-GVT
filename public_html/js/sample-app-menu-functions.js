@@ -151,14 +151,6 @@ $("#addEdge").click(function (e) {
     edge.id = IDGenerator.generate();
     edge.group = 'edges';
     edge.data = {source: cy.$("node:selected")[0].data('id'), target: cy.$("node:selected")[1].data('id')}
-/*    if (edgeNodes.length != 2){
-        return;
-    }
-    var target = edgeNodes[1];
-    var source = edgeNodes[0];
-    var edge = new Object();
-    edge['group'] = "edges";
-    edge['data'] = {source: source, target: target};*/
     cy.add(edge);
 });
 
@@ -352,6 +344,7 @@ $("body").on("change", "#file-input", function (e) {
     };
     reader.readAsText(file);
     setFileContent(file.name);
+    $("#file-input").val(null);
 });
 $("#load-file").click(function (e) {
     $("#file-input").trigger('click');
@@ -423,5 +416,33 @@ $("#quick-help").click(function (e) {
                 });
             }
         });
- //   $.fancybox().title = "hello";
+});
+
+var loadSample = function(fileName){
+  var xmlObject = loadXMLDoc("sample/" + fileName + ".xml");
+  var graphmlConverter = graphmlToJSON(xmlObject);
+  atts = graphmlConverter.attributes;
+
+  var cytoscapeJsGraph = {
+      edges: graphmlConverter.objects[2],
+      nodes: graphmlConverter.objects[1]
+  };
+  refreshCytoscape(cytoscapeJsGraph);
+  setFileContent(fileName + ".graphml");
+};
+
+$("#sample1").click(function (e){
+  loadSample("graph1");
+});
+$("#sample2").click(function (e){
+  loadSample("graph2");
+});
+$("#sample3").click(function (e){
+  loadSample("graph3");
+});
+$("#sample4").click(function (e){
+  loadSample("graph4");
+});
+$("#sample5").click(function (e){
+  loadSample("graph5");
 });

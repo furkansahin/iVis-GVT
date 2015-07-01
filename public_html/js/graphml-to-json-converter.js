@@ -21,7 +21,7 @@ function graphmlToJSON(xml) {
   graph = {};
   this.attributes = getAttributes(xml);
   this.objects = getObjects(xml, this.attributes[0], this.attributes[1], this.attributes[2]);
-    return {attributes: this.attributes, objects: this.objects};
+  return {attributes: this.attributes, objects: this.objects};
 }
 ;
 
@@ -100,7 +100,7 @@ var processNode = function (theNode, pid, nodeAttributes) {
         var name = $(this).attr('key');
 
 
-        if (name == "x"||name == "y"||name == "width"||name == "height"||name == "margin") {
+        if (name == "x" || name == "y" || name == "width" || name == "height" || name == "margin") {
             val = Number(val);
         }
 
@@ -110,11 +110,13 @@ var processNode = function (theNode, pid, nodeAttributes) {
         else if (name == "y") {
             cyPos.y = val;
         }
-        else if (name == "height") {
-            cyData.height = val;
-        }
-        else if (name == "width") {
-            cyData.width = val;
+        else if (!nodeGraph) {
+            if (name == "height") {
+                cyCSS.height = val;
+            }
+            else if (name == "width") {
+                cyCSS.width = val;
+            }
         }
         else if (name == "shape") {
             cyCSS.shape = val.toLowerCase();
@@ -130,6 +132,11 @@ var processNode = function (theNode, pid, nodeAttributes) {
         }
     });
 
+    if(nodeGraph.lenght > 0){
+      cyCSS.height = undefined;
+      cyCSS.width = undefined;
+      cyPos = undefined;
+    }
     nodes.push({data: cyData, css: cyCSS, position: cyPos});
 
 
@@ -139,6 +146,7 @@ var processNode = function (theNode, pid, nodeAttributes) {
         var childNodes = $(nodeGraph).children("node");
 
         for (var i = 0; i < childNodes.length; i++) {
+
             var theNode = $(childNodes)[i];
             processNode(theNode, id, nodeAttributes);
         }
@@ -159,4 +167,3 @@ function textToXmlObject(text) {
     return doc;
 }
 ;
-
