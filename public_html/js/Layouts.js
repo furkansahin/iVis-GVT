@@ -410,7 +410,7 @@ var COLALayout = Backbone.View.extend({
         }, // on layoutstop
 
         // positioning options
-        randomize: false, // use random node positions at beginning of layout
+        randomize: true, // use random node positions at beginning of layout
         avoidOverlap: true, // if true, prevents overlap of node bounding boxes
         handleDisconnected: true, // if true, avoids disconnected components from overlapping
         nodeSpacing: function (node) {

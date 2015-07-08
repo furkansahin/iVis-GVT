@@ -430,7 +430,9 @@ var loadSample = function(fileName){
   refreshCytoscape(cytoscapeJsGraph);
   setFileContent(fileName + ".graphml");
 };
-
+$("#sample0").click(function (e){
+    loadSample("graph0");
+});
 $("#sample1").click(function (e){
   loadSample("graph1");
 });
